@@ -1,13 +1,13 @@
 # Structure-Preserving Numerical Methods for Two Nonlinear Systems of Dispersive Wave Equations
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-success.svg)](https://opensource.org/licenses/MIT)
-[![DOI](https://zenodo.org/badge/DOI/TODO.svg)](https://doi.org/TODO)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10709027.svg)](https://doi.org/10.5281/zenodo.10709027)
 
 
 This repository contains information and code to reproduce the results presented in the
 article
 ```bibtex
-@online{lampert2024structure-Preserving,
+@online{lampert2024structure-preserving,
   title={Structure-Preserving Numerical Methods for
          Two Nonlinear Systems of Dispersive Wave Equations},
   author={Lampert, Joshua and Ranocha, Hendrik},
@@ -30,7 +30,7 @@ use the implementations provided here, please **also** cite this repository as
   author={Lampert, Joshua and Ranocha, Hendrik},
   year={2024},
   howpublished={\url{https://github.com/JoshuaLampert/2024_structure-preserving_dispersive_waves}},
-  doi={TODO}
+  doi={10.5281/zenodo.10709027}
 }
 ```
 

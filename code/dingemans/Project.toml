@@ -1,0 +1,8 @@
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+DispersiveShallowWater = "4ab875f6-b79a-4e28-9745-4f0293954817"
+OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+SummationByPartsOperators = "9f78cca6-572e-554e-b819-917d2f1cf240"
+Trixi = "a7f1ee26-1774-49b1-8366-f1abc58fbfcb"

@@ -29,7 +29,7 @@ use the implementations provided here, please **also** cite this repository as
            for Two Nonlinear Systems of Dispersive Wave Equations"},
   author={Lampert, Joshua and Ranocha, Hendrik},
   year={2024},
-  howpublished={\url{https://github.com/JoshuaLampert/2024_structure-preserving_dispersive_waves}},
+  howpublished={\url{https://github.com/JoshuaLampert/2024\_dispersive\_shallow\_water}},
   doi={10.5281/zenodo.10709026}
 }
 ```

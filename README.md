@@ -33,6 +33,18 @@ use the implementations provided here, please **also** cite this repository as
   doi={10.5281/zenodo.10709026}
 }
 ```
+and [DispersiveShallowWater.jl](https://github.com/JoshuaLampert/DispersiveShallowWater.jl) as
+```bibtex
+@misc{lampert2023dispersive,
+  title={{D}ispersive{S}hallow{W}ater.jl: {S}tructure-preserving numerical
+         methods for dispersive shallow water models},
+  author={Lampert, Joshua},
+  year={2023},
+  month={10},
+  howpublished={\url{https://github.com/JoshuaLampert/DispersiveShallowWater.jl}},
+  doi={10.5281/zenodo.10034636}
+}
+```
 
 ## Abstract
 

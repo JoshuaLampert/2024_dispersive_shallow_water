@@ -18,14 +18,14 @@ ylim = (0.75, 0.85)
 yticks = [0.76, 0.78, 0.8, 0.82, 0.84]
 x_values = [3.04, 9.44, 20.04, 26.04, 30.44, 37.04]
 tlims = [
-    (15.0, 45.0),
-    (19.0, 48.0),
-    (25.0, 52.0),
-    (30.0, 60.0),
-    (33.0, 61.0),
-    (35.0, 65.0),
+    (20.0, 30.0),
+    (25.0, 35.0),
+    (35.0, 45.0),
+    (40.0, 50.0),
+    (45.0, 55.0),
+    (50.0, 60.0),
 ]
-plot(layout = (3, 2))
+plot(layout = (3, 2), size = (600, 600))
 
 N = 512
 tspan = (0.0, 70.0)
@@ -40,10 +40,6 @@ for (j, x) in enumerate(x_values)
           linewidth = linewidth, label = "experiment", linestyle = :dot)
 end
 
-# BBM-BBM equations need to be translated vertically
-shifted_waterheight(q, equations) = waterheight_total(q, equations) + 0.8
-DispersiveShallowWater.varnames(shifted_waterheight, equations) = ("η",)
-
 for (i, accuracy_order) in enumerate(accuracy_orders)
     trixi_include(joinpath(EXAMPLES_DIR,
                            "svaerd_kalisch_1d_dingemans.jl");
@@ -53,10 +49,10 @@ for (i, accuracy_order) in enumerate(accuracy_orders)
         plot!(semi => sol, x, conversion = waterheight_total, subplot = j,
               xlim = tlims[j], ylim = ylim, plot_title = "", title = "x = $x",
               legend = nothing, yticks = yticks, linewidth = linewidth, titlefontsize = 10,
-              label = "p = $accuracy_order ", linestyle = linestyles[i])
+              label = "p = $accuracy_order ", linestyle = linestyles[i], xlabel = (j > 4 ? "t" : ""))
     end
 end
 
-plot!(subplot = 5, legend = (0.82, -1.0), legend_column = 2, legendfontsize = 8,
+plot!(subplot = 5, legend = (0.82, -0.5), legend_column = 2, legendfontsize = 8,
       bottom_margin = 10 * Plots.mm)
 savefig(joinpath(OUT, "dingemans_waterheight_at_x_accuracy_order_Svaerd_Kalisch.pdf"))

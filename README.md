@@ -22,7 +22,7 @@ article
 If you find these results useful, please cite the article mentioned above. If you
 use the implementations provided here, please **also** cite this repository as
 ```bibtex
-@misc{lampert2024structure-preservingRepro,
+@misc{lampert2024structureRepro,
   title={Reproducibility repository for
          "{S}tructure-Preserving Numerical Methods
            for Two Nonlinear Systems of Dispersive Wave Equations"},
@@ -62,7 +62,7 @@ method. We present improved numerical properties of our schemes in some test cas
 
 To reproduce the numerical experiments presented in this article, you need
 to install [Julia](https://julialang.org/). The numerical experiments presented
-in this article were performed using Julia v1.10.1.
+in this article were performed using Julia v1.10.4.
 
 First, you need to download this repository, e.g., by cloning it with `git`
 or by downloading an archive via the GitHub interface. Then, you need to start

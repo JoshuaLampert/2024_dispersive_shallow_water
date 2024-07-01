@@ -31,7 +31,9 @@ end
 initial_condition = initial_condition_dingemans_trixi
 
 volume_flux = (flux_wintermeyer_etal, flux_nonconservative_wintermeyer_etal)
-surface_flux = (flux_fjordholm_etal, flux_nonconservative_fjordholm_etal)
+surface_flux = (FluxHydrostaticReconstruction(flux_lax_friedrichs,
+                                              hydrostatic_reconstruction_audusse_etal),
+                flux_nonconservative_audusse_etal)
 accuracy_order = 3
 solver = DGSEM(polydeg = accuracy_order, surface_flux = surface_flux,
                volume_integral = VolumeIntegralFluxDifferencing(volume_flux))

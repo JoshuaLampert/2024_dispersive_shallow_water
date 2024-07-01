@@ -7,6 +7,7 @@ using DispersiveShallowWater
 using Plots
 using LaTeXStrings
 
+const EXAMPLES_DIR = "elixirs"
 const OUT = "out/"
 ispath(OUT) || mkpath(OUT)
 
@@ -41,10 +42,8 @@ plot(layout = (1, 2), label = :none, xscale = :log2, yscale = :log10, xlabel = "
      ylabel = L"\Vert\eta - \eta_{ana}\Vert_2 + \Vert v - v_{ana}\Vert_2",
      legend = :bottomleft)
 
-const EXAMPLES_DIR_BBM_BBM = joinpath(examples_dir(), "bbm_bbm_variable_bathymetry_1d")
-convergence_plot!(1, (0.0, 1.0), joinpath(EXAMPLES_DIR_BBM_BBM, "bbm_bbm_variable_bathymetry_1d_manufactured.jl"))
+convergence_plot!(1, (0.0, 1.0), joinpath(EXAMPLES_DIR, "bbm_bbm_variable_bathymetry_1d_manufactured.jl"))
 
-const EXAMPLES_DIR_SVAERD_KALISCH = joinpath(examples_dir(), "svaerd_kalisch_1d")
-convergence_plot!(2, (0.0, 0.01), joinpath(EXAMPLES_DIR_SVAERD_KALISCH, "svaerd_kalisch_1d_manufactured.jl"))
+convergence_plot!(2, (0.0, 0.01), joinpath(EXAMPLES_DIR, "svaerd_kalisch_1d_manufactured.jl"))
 
 savefig(joinpath(OUT, "manufactured_solution_convergence_orders.pdf"))

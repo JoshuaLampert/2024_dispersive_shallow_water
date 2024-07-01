@@ -24,20 +24,19 @@ ylim = (0.75, 0.85)
 yticks = [0.76, 0.78, 0.8, 0.82, 0.84]
 x_values = [3.04, 9.44, 20.04, 26.04, 30.44, 37.04]
 tlims = [
-    (15.0, 45.0),
-    (19.0, 48.0),
-    (25.0, 52.0),
-    (30.0, 60.0),
-    (33.0, 61.0),
-    (35.0, 65.0),
+    (20.0, 30.0),
+    (25.0, 35.0),
+    (35.0, 45.0),
+    (40.0, 50.0),
+    (45.0, 55.0),
+    (50.0, 60.0),
 ]
-plot(layout = (3, 2))
+plot(layout = (3, 2), size = (600, 600))
 
 N = 512
 tspan = (0.0, 70.0)
 saveat = range(tspan..., length = 1000)
-accuracy_order = 4
-linestyles = [:solid, :dash, :dot]
+linestyles = [:solid, :dash, :dashdot]
 
 coordinates_min = -138.0
 coordinates_max = 46.0
@@ -80,10 +79,10 @@ for (i, solver) in enumerate(solvers)
         plot!(semi => sol, x, conversion = waterheight_total, subplot = j,
               xlim = tlims[j], ylim = ylim, plot_title = "", title = "x = $x",
               legend = nothing, yticks = yticks, linewidth = 2, titlefontsize = 10,
-              label = labels[i], linestyle = linestyles[i])
+              label = labels[i], linestyle = linestyles[i], xlabel = (j > 4 ? "t" : ""))
     end
 end
 
-plot!(subplot = 5, legend = (0.86, -1.0), legend_column = 2, legendfontsize = 8,
+plot!(subplot = 5, legend = (0.86, -0.5), legend_column = 2, legendfontsize = 8,
       bottom_margin = 10 * Plots.mm)
 savefig(joinpath(OUT, "dingemans_waterheight_at_x_solver_types.pdf"))

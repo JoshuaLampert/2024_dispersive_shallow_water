@@ -1,36 +1,36 @@
 using OrdinaryDiffEq
 using DispersiveShallowWater
+using SummationByPartsOperators: derivative_operator, MattssonNordström2004
+using SparseArrays: sparse
 
 ###############################################################################
 # Semidiscretization of the BBM-BBM equations
 
 equations = BBMBBMVariableEquations1D(gravity_constant = 9.81, eta0 = 0.0)
 
-function initial_condition_traveling_wave(x, t, equations::BBMBBMVariableEquations1D, mesh)
-    h0 = 0.8
-    A = 0.02
-    omega = 2*pi/(2.02*sqrt(2))
-    k = 0.8406220896381442 # precomputed result of find_zero(k -> omega^2 - equations.gravity * k * tanh(k * h0), 1.0) using Roots.jl
-    h = A * cos(k * x - omega * t)
-    v = sqrt(equations.gravity / k * tanh(k * h0)) * h / h0
-    eta = h
-    D = h0
+function intial_condition_two_waves(x, t, equations::BBMBBMVariableEquations1D, mesh)
+    eta = 1 + exp(-50*x^2)
+    v = 0
+    D = -0.3*cospi(x)
     return SVector(eta, v, D)
 end
 
-initial_condition = initial_condition_traveling_wave
-boundary_conditions = boundary_condition_periodic
+initial_condition = intial_condition_two_waves
+boundary_conditions = boundary_condition_reflecting
 
 # create homogeneous mesh
-k = 0.8406220896381442
-coordinates_min = 0
-coordinates_max = 10*pi/k
+coordinates_min = -1.0
+coordinates_max = 1.0
 N = 512
 mesh = Mesh1D(coordinates_min, coordinates_max, N)
 
-# create solver with periodic SBP operators of accuracy order 4
+# create solver with central SBP operators of accuracy order 4
 accuracy_order = 4
-solver = Solver(mesh, accuracy_order)
+D1 = derivative_operator(MattssonNordström2004(),
+                         derivative_order = 1, accuracy_order = accuracy_order,
+                         xmin = mesh.xmin, xmax = mesh.xmax, N = mesh.N)
+D2 = sparse(D1)^2
+solver = Solver(D1, D2)
 
 # semidiscretization holds all the necessary data structures for the spatial discretization
 semi = Semidiscretization(mesh, equations, initial_condition, solver,
@@ -38,16 +38,15 @@ semi = Semidiscretization(mesh, equations, initial_condition, solver,
 
 ###############################################################################
 # Create `ODEProblem` and run the simulation
-tspan = (0.0, 70.0)
+tspan = (0.0, 1.0)
 ode = semidiscretize(semi, tspan)
 summary_callback = SummaryCallback()
 analysis_callback = AnalysisCallback(semi; interval = 10,
                                      extra_analysis_errors = (:conservation_error,),
                                      extra_analysis_integrals = (waterheight_total,
-                                                                 velocity, entropy))
+                                                                 entropy))
 callbacks = CallbackSet(analysis_callback, summary_callback)
 
-saveat = range(tspan..., length = 501)
+saveat = range(tspan..., length = 100)
 sol = solve(ode, Tsit5(), abstol = 1e-7, reltol = 1e-7,
-            save_everystep = false, callback = callbacks, saveat = saveat,
-            tstops = saveat)
+            save_everystep = false, callback = callbacks, saveat = saveat)

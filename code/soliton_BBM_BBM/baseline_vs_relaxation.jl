@@ -41,19 +41,16 @@ p3 = plot(semi => sol, label = "baseline", plot_initial = true, plot_bathymetry 
           linestyle = linestyles[1], linewidth = linewidth, plot_title = "", title = "",
           ylims = [(-8, 3) (-1, 40)])
 x = DispersiveShallowWater.grid(semi)
-q = DispersiveShallowWater.wrap_array(sol.u[end], semi)
-plot!(p3, x, view(q, 1, :), inset = (1, bbox(0.11, 0.6, 0.35, 0.32)), subplot = 3,
+q = sol.u[end]
+plot!(p3, x, q.x[1], inset = (1, bbox(0.11, 0.6, 0.35, 0.32)), subplot = 3,
       xlim = (-20, -10),
       ylim = (-0.05, 0.05), legend = nothing, linewidth = linewidth,
       linestyle = linestyles[1],
       color = 2,
       tickfontsize = 5, yticks = [0.04, 0.0, -0.04], xticks = [-20, -15, -10],
       plot_initial = true, plot_bathymetry = false, framestyle = :box)
-q_exact = DispersiveShallowWater.wrap_array(DispersiveShallowWater.compute_coefficients(initial_condition,
-                                                                                        tspan[2],
-                                                                                        semi),
-                                            semi)
-plot!(p3, x, view(q_exact, 1, :), subplot = 3, legend = nothing, linewidth = linewidth,
+q_exact = DispersiveShallowWater.compute_coefficients(initial_condition, tspan[2], semi)
+plot!(p3, x, q_exact.x[1], subplot = 3, legend = nothing, linewidth = linewidth,
       linestyle = :solid, color = 1)
 
 # relaxation
@@ -73,8 +70,8 @@ plot!(p3, semi => sol, plot_bathymetry = false, label = "relaxation",
       linestyle = linestyles[2],
       linewidth = linewidth, plot_title = "", title = "", color = 3)
 x = DispersiveShallowWater.grid(semi)
-q = DispersiveShallowWater.wrap_array(sol.u[end], semi)
-plot!(p3, x, view(q, 1, :), subplot = 3, legend = nothing, linewidth = linewidth,
+q = sol.u[end]
+plot!(p3, x, q.x[1], subplot = 3, legend = nothing, linewidth = linewidth,
       linestyle = linestyles[2], color = 3)
 
 # Plot box

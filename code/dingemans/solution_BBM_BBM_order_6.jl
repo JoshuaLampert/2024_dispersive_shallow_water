@@ -56,4 +56,8 @@ end
 
 plot!(subplot = 5, legend = (0.82, -0.5), legend_column = 2, legendfontsize = 8,
       bottom_margin = 10 * Plots.mm)
+for i in 1:6
+    plot!(subplot = i, top_margin = -3 * Plots.mm, right_margin = 2 * Plots.mm)
+end
+plot!(size = (600, 550))
 savefig(joinpath(OUT, "dingemans_waterheight_at_x_order_6_BBM_BBM_upwind.pdf"))

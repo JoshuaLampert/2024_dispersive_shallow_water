@@ -1,11 +1,11 @@
-using OrdinaryDiffEq
+using OrdinaryDiffEqTsit5
 using DispersiveShallowWater
 using SummationByPartsOperators: derivative_operator, MattssonNordström2004
 
 ###############################################################################
 # Semidiscretization of the BBM-BBM equations
 
-equations = BBMBBMVariableEquations1D(gravity_constant = 9.81, eta0 = 0.0)
+equations = BBMBBMEquations1D(gravity_constant = 9.81, eta0 = 0.0)
 
 initial_condition = initial_condition_manufactured_reflecting
 source_terms = source_terms_manufactured_reflecting

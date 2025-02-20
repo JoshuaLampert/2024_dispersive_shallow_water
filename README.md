@@ -47,22 +47,33 @@ and [DispersiveShallowWater.jl](https://github.com/JoshuaLampert/DispersiveShall
 
 ## Abstract
 
-We use the general framework of summation by parts operators to construct conser-
-vative, entropy-stable and well-balanced semidiscretizations of two different nonlinear
-systems of dispersive shallow water equations with varying bathymetry: (i) a variant
-of the coupled Benjamin-Bona-Mahony (BBM) equations and (ii) a recently proposed
-model by Svärd and Kalisch (2023) with enhanced dispersive behavior. Both models
-share the property of being conservative in terms of a nonlinear invariant, often inter-
-preted as entropy function. This property is preserved exactly in our novel semidis-
-cretizations. To obtain fully-discrete entropy-stable schemes, we employ the relaxation
-method. We present improved numerical properties of our schemes in some test cases.
+We use the general framework of summation-by-parts operators
+to construct conservative, energy-stable and well-balanced
+semidiscretizations of two different nonlinear systems of
+dispersive shallow water equations with varying bathymetry:
+(i) a variant of the coupled Benjamin-Bona-Mahony (BBM) equations
+and (ii) a recently proposed model by Svärd and Kalisch (2025) with
+enhanced dispersive behavior. Both models share the property of
+being conservative in terms of a nonlinear invariant, often
+interpreted as energy. This property is preserved exactly
+in our novel semidiscretizations. To obtain fully-discrete
+energy-stable schemes, we employ the relaxation method.
+Our novel methods generalize energy-conserving
+methods for the BBM-BBM system to variable bathymetries. Compared to the
+low-order, energy-dissipative finite volume method proposed by Svärd and Kalisch,
+our schemes are arbitrary high-order accurate, energy-conservative or -stable,
+can deal with periodic and reflecting boundary conditions, and can be any
+method within the framework of summation-by-parts operators including
+finite difference and finite element schemes.
+We present improved numerical properties of our methods in some test cases.
+
 
 
 ## Numerical experiments
 
 To reproduce the numerical experiments presented in this article, you need
 to install [Julia](https://julialang.org/). The numerical experiments presented
-in this article were performed using Julia v1.10.4.
+in this article were performed using Julia v1.11.2.
 
 First, you need to download this repository, e.g., by cloning it with `git`
 or by downloading an archive via the GitHub interface. Then, you need to start

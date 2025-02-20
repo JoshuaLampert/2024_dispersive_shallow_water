@@ -1,4 +1,4 @@
-using OrdinaryDiffEq
+using OrdinaryDiffEqTsit5
 using DispersiveShallowWater
 using SummationByPartsOperators: upwind_operators, periodic_derivative_operator
 
@@ -29,7 +29,7 @@ function initial_condition_dingemans_calibrated(x, t, equations::SvaerdKalischEq
     else
         b = 0.0
     end
-    eta = h + h0
+    eta = h + equations.eta0
     D = equations.eta0 - b
     return SVector(eta, v, D)
 end

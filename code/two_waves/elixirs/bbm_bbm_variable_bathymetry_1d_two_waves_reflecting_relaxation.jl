@@ -1,4 +1,4 @@
-using OrdinaryDiffEq
+using OrdinaryDiffEqTsit5
 using DispersiveShallowWater
 using SummationByPartsOperators: derivative_operator, MattssonNordström2004
 using SparseArrays: sparse
@@ -6,9 +6,9 @@ using SparseArrays: sparse
 ###############################################################################
 # Semidiscretization of the BBM-BBM equations
 
-equations = BBMBBMVariableEquations1D(gravity_constant = 9.81, eta0 = 0.0)
+equations = BBMBBMEquations1D(gravity_constant = 9.81, eta0 = 0.0)
 
-function intial_condition_two_waves(x, t, equations::BBMBBMVariableEquations1D, mesh)
+function intial_condition_two_waves(x, t, equations::BBMBBMEquations1D, mesh)
     eta = 1 + exp(-50*x^2)
     v = 0
     D = -0.3*cospi(x)

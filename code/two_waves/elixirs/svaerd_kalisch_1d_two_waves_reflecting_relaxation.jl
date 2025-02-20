@@ -1,17 +1,17 @@
 using OrdinaryDiffEqTsit5
 using DispersiveShallowWater
 using SummationByPartsOperators: derivative_operator, MattssonNordström2004
-using SparseArrays: sparse
 
 ###############################################################################
-# Semidiscretization of the BBM-BBM equations
+# Semidiscretization of the Svärd-Kalisch equations
 
-equations = BBMBBMEquations1D(gravity_constant = 9.81, eta0 = 0.0)
+equations = SvaerdKalischEquations1D(gravity_constant = 9.81, eta0 = 1.0,
+                                     alpha = 0.0, beta = 1/3, gamma = 0.0)
 
-function intial_condition_two_waves(x, t, equations::BBMBBMEquations1D, mesh)
-    eta = 1 + exp(-50*x^2)
+function intial_condition_two_waves(x, t, equations::SvaerdKalischEquations1D, mesh)
+    eta = equations.eta0 + exp(-50*x^2)
     v = 0
-    D = -0.3*cospi(x)
+    D = equations.eta0 - 0.3*cospi(x)
     return SVector(eta, v, D)
 end
 
@@ -29,8 +29,7 @@ accuracy_order = 4
 D1 = derivative_operator(MattssonNordström2004(),
                          derivative_order = 1, accuracy_order = accuracy_order,
                          xmin = mesh.xmin, xmax = mesh.xmax, N = mesh.N)
-D2 = sparse(D1)^2
-solver = Solver(D1, D2)
+solver = Solver(D1, nothing)
 
 # semidiscretization holds all the necessary data structures for the spatial discretization
 semi = Semidiscretization(mesh, equations, initial_condition, solver,
@@ -41,12 +40,13 @@ semi = Semidiscretization(mesh, equations, initial_condition, solver,
 tspan = (0.0, 1.0)
 ode = semidiscretize(semi, tspan)
 summary_callback = SummaryCallback()
-analysis_callback = AnalysisCallback(semi; interval = 10,
+analysis_callback = AnalysisCallback(semi; interval = 1000,
                                      extra_analysis_errors = (:conservation_error,),
                                      extra_analysis_integrals = (waterheight_total,
-                                                                 entropy))
-callbacks = CallbackSet(analysis_callback, summary_callback)
-
+                                                                 entropy, entropy_modified))
+relaxation_callback = RelaxationCallback(invariant = entropy_modified)
+# Always put relaxation_callback before analysis_callback to guarantee conservation of the invariant
+callbacks = CallbackSet(relaxation_callback, analysis_callback, summary_callback)
 saveat = range(tspan..., length = 100)
-sol = solve(ode, Tsit5(), abstol = 1e-7, reltol = 1e-7,
+sol = solve(ode, Tsit5(), abstol = 1e-12, reltol = 1e-12,
             save_everystep = false, callback = callbacks, saveat = saveat)

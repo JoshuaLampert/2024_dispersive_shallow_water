@@ -1,10 +1,10 @@
-using OrdinaryDiffEq
+using OrdinaryDiffEqTsit5
 using DispersiveShallowWater
 
 ###############################################################################
 # Semidiscretization of the Svärd-Kalisch equations
 
-equations = SvaerdKalischEquations1D(gravity_constant = 9.81, eta0 = 0.8, alpha = 0.0004040404040404049,
+equations = SvaerdKalischEquations1D(gravity_constant = 9.81, eta0 = 0.0, alpha = 0.0004040404040404049,
                                      beta = 0.49292929292929294, gamma = 0.15707070707070708)
 
 function initial_condition_traveling_wave(x, t, equations::SvaerdKalischEquations1D, mesh)
@@ -12,10 +12,10 @@ function initial_condition_traveling_wave(x, t, equations::SvaerdKalischEquation
     A = 0.02
     omega = 2*pi/(2.02*sqrt(2))
     k = 0.8406220896381442 # precomputed result of find_zero(k -> omega^2 - equations.gravity * k * tanh(k * h0), 1.0) using Roots.jl
-    h = A * cos(k * x - omega * t)
-    v = sqrt(equations.gravity / k * tanh(k * h0)) * h / h0
-    eta = h + h0
-    D = equations.eta0
+    h_prime = A * cos(k * x - omega * t) # linearizing h around h0, h = h0 + h'
+    v = sqrt(equations.gravity / k * tanh(k * h0)) * h_prime / h0
+    eta = h_prime + equations.eta0
+    D = h0
     return SVector(eta, v, D)
 end
 

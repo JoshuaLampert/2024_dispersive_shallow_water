@@ -1,5 +1,5 @@
 using Trixi
-using OrdinaryDiffEq
+using OrdinaryDiffEqTsit5
 
 equations = ShallowWaterEquations1D(gravity_constant = 9.81, H0 = 0.8)
 
@@ -58,4 +58,4 @@ saveat = range(tspan..., length = 501)
 sol = solve(ode, Tsit5(), reltol = 1e-7, abstol = 1e-7,
             save_everystep = false, callback = callbacks, saveat = saveat,
             tstops = saveat);
-summary_callback() # print the timer summary 
+summary_callback() # print the timer summary

@@ -1,12 +1,12 @@
-using OrdinaryDiffEq
+using OrdinaryDiffEqTsit5
 using DispersiveShallowWater
 
 ###############################################################################
 # Semidiscretization of the BBM-BBM equations
 
-equations = BBMBBMVariableEquations1D(gravity_constant = 9.81, eta0 = 0.0)
+equations = BBMBBMEquations1D(gravity_constant = 9.81, eta0 = 0.0)
 
-function initial_condition_dingemans_calibrated(x, t, equations::BBMBBMVariableEquations1D, mesh)
+function initial_condition_dingemans_calibrated(x, t, equations::BBMBBMEquations1D, mesh)
     h0 = 0.8
     A = 0.02
     # omega = 2*pi/(2.02*sqrt(2))
@@ -27,7 +27,7 @@ function initial_condition_dingemans_calibrated(x, t, equations::BBMBBMVariableE
     else
         b = 0.0
     end
-    eta = h
+    eta = h + equations.eta0
     D = h0 - b
     return SVector(eta, v, D)
 end

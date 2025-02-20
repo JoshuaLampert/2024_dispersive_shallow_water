@@ -76,4 +76,5 @@ for (i, solver) in enumerate(solvers)
           exclude = [:conservation_error, :linf_error])
 end
 
+plot!(size = (600, 250), bottom_margin = 3 * Plots.mm)
 savefig(joinpath(OUT, "soliton_BBM_BBM_errors_stencils.pdf"))

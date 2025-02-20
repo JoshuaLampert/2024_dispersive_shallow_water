@@ -31,7 +31,6 @@ N = 1024
 tspan = (0.0, 70.0)
 saveat = range(tspan..., length = 1000)
 accuracy_order = 6
-linestyle = :dashdot
 
 for (j, x) in enumerate(x_values)
     plot!(experimental_data.time, experimental_data[:, j + 1], subplot = j,
@@ -47,9 +46,25 @@ for (j, x) in enumerate(x_values)
     plot!(semi => sol, x, conversion = waterheight_total, subplot = j,
           xlim = tlims[j], ylim = ylim, plot_title = "", title = "x = $x",
           legend = nothing, yticks = yticks, linewidth = 2, titlefontsize = 10,
-          label = "p = $accuracy_order ", linestyle = linestyle, color = 4, xlabel = (j > 4 ? "t" : ""))
+          label = "set 2", linestyle = :dashdot, color = 4, xlabel = (j > 4 ? "t" : ""))
+end
+
+trixi_include(joinpath(EXAMPLES_DIR,
+                       "svaerd_kalisch_1d_dingemans_upwind.jl");
+              N = N, tspan = tspan, accuracy_order = accuracy_order,
+              alpha = 0.0, beta = 1/3, gamma = 0.0,
+              saveat = saveat, tstops = saveat)
+for (j, x) in enumerate(x_values)
+    plot!(semi => sol, x, conversion = waterheight_total, subplot = j,
+          xlim = tlims[j], ylim = ylim, plot_title = "", title = "x = $x",
+          legend = nothing, yticks = yticks, linewidth = 2, titlefontsize = 10,
+          label = "set 5", linestyle = :dash, color = 3, xlabel = (j > 4 ? "t" : ""))
 end
 
 plot!(subplot = 5, legend = (0.82, -0.5), legend_column = 2, legendfontsize = 8,
       bottom_margin = 10 * Plots.mm)
+for i in 1:6
+    plot!(subplot = i, top_margin = -3 * Plots.mm, right_margin = 2 * Plots.mm)
+end
+plot!(size = (600, 550))
 savefig(joinpath(OUT, "dingemans_waterheight_at_x_order_6_upwind.pdf"))

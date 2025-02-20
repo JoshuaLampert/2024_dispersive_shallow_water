@@ -59,4 +59,5 @@ for i in 1:length(accuracy_orders)
           subplot = 2)
 end
 xticks!(all_Ns, string.(all_Ns))
+plot!(size = (600, 300))
 savefig(joinpath(OUT, "soliton_BBM_BBM_convergence_orders.pdf"))

@@ -1,17 +1,17 @@
-using OrdinaryDiffEq
+using OrdinaryDiffEqTsit5
 using DispersiveShallowWater
 
 ###############################################################################
 # Semidiscretization of the BBM-BBM equations
 
-equations = BBMBBMVariableEquations1D(gravity_constant = 1.0, eta0 = 2.0)
+equations = BBMBBMEquations1D(gravity_constant = 1.0, eta0 = 2.0)
 
 # Setup a truly discontinuous bottom topography function for this academic
 # testcase of well-balancedness. The errors from the analysis callback are
 # not important but the error for this lake-at-rest test case
 # `∫|η-η₀|` should be around machine roundoff.
 function initial_condition_discontinuous_well_balancedness(x, t,
-                                                           equations::BBMBBMVariableEquations1D,
+                                                           equations::BBMBBMEquations1D,
                                                            mesh)
     # Set the background values
     eta = equations.eta0

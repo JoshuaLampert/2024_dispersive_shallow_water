@@ -79,5 +79,9 @@ plot!(p2, analysis_callback, title = labels[3], legend = :none,
 plot!(p1, subplot = 5, legend = (0.7, -0.6), legend_column = 2, legendfontsize = 8,
         bottom_margin = 12 * Plots.mm)
 plot!(p2, subplot = 3, legend = (1.3, 0.6), legendfontsize = 8)
+for i in 1:6
+    plot!(p1, subplot = i, top_margin = -3 * Plots.mm, right_margin = 2 * Plots.mm)
+end
+plot!(p1, size = (600, 550))
 savefig(p1, joinpath(OUT, "dingemans_waterheight_at_x_ec_ed.pdf"))
 savefig(p2, joinpath(OUT, "dingemans_invariants_ec_ed.pdf"))

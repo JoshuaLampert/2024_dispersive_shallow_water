@@ -84,6 +84,10 @@ plot!(p3, [-10, -10], [-0.1, 0.1], color = :black, label = :none)
 plot!(p3, [-20, -29], [-0.1, -3.6], color = :black, label = :none)
 plot!(p3, [-10, -3.15], [-0.1, -3.6], color = :black, label = :none)
 
+plot!(p1, size = (600, 300), legend = :right, subplot = 2)
 savefig(p1, joinpath(OUT, "soliton_BBM_BBM_invariants.pdf"))
+
+plot!(p2, size = (600, 250), bottom_margin = 3 * Plots.mm)
 savefig(p2, joinpath(OUT, "soliton_BBM_BBM_errors.pdf"))
+
 savefig(p3, joinpath(OUT, "soliton_BBM_BBM_solution.pdf"))

@@ -6,16 +6,18 @@ Pkg.instantiate()
 import SymPy; sp = SymPy
 
 function math_replacements(s)
+    s = replace(s, "sin(pi*" => "sinpi(")
+    s = replace(s, "cos(pi*" => "cospi(")
     s = replace(s, "sin(2*pi*x)" => "a1")
     s = replace(s, "cos(2*pi*x)" => "a2")
-    s = replace(s, "sin(pi*(-t + 2*x))" => "a3")
-    s = replace(s, "cos(pi*(-t + 2*x))" => "a4")
-    s = replace(s, "sin(pi*(t - 2*x))" => "a5")
-    s = replace(s, "cos(pi*(t - 2*x))" => "a6")
-    s = replace(s, "sin(pi*(-4*t + 2*x))" => "a7")
+    s = replace(s, "sinpi((-t + 2*x))" => "a3")
+    s = replace(s, "cospi((-t + 2*x))" => "a4")
+    s = replace(s, "sinpi((t - 2*x))" => "a5")
+    s = replace(s, "cospi((t - 2*x))" => "a6")
+    s = replace(s, "sinpi((-4*t + 2*x))" => "a7")
     s = replace(s, "exp(t/2)" => "a8")
     s = replace(s, "exp(t)" => "a9")
-    s = replace(s, "a9*cos(pi*(-4*t + 2*x))" => "a10")
+    s = replace(s, "a9*cospi((-4*t + 2*x))" => "a10")
     s = replace(s, "(eta0 + 2.0*a2 + 5.0)" => "a11")
     s = replace(s, "sqrt(g*a11)" => "a12")
     s = replace(s, "(0.2*eta0 + 0.4*a2 + 1)" => "a13")
@@ -27,16 +29,24 @@ function math_replacements(s)
     s = replace(s, "(a10 + 2.0*a2 + 5.0)" => "a19")
     s = replace(s, "a18*a8*a3 + 2*pi*a19*a8*a4" => "a20")
     s = replace(s, "a15*(40.0*pi^3*a15*a9*a7 - 40.0*pi^2*a15*a16*a10/(a14) - 20.0*pi^2*a15*a16*a9*a1*a7/(a14*a11) - 16.0*pi^2*a15*a16*a9*a1*a7/(alpha*a12*a13^3) - 10.0*pi*a15*(-2.0*pi^2*a14*a2/a11 - 1.6*pi^2*alpha*a12*a13*a2 + 3.2*pi^2*alpha*a12*a13*a1^2/a11 + 0.56*pi^2*alpha*a12*a1^2)*a9*a7/(a14) - 10.0*pi*a15*a16^2*a9*a7/(alpha^2*g*a13^4*a11))" => "a21")
+    s = replace(s, "sinpi(x)" => "a22")
+    s = replace(s, "cospi(x)" => "a23")
+    s = replace(s, "exp(2*t)" => "a24")
+    s = replace(s, "a24*a23" => "a25")
+    s = replace(s, "(a25 + 2.0*a2 + 5.0)" => "a26")
+    s = replace(s, "a9*a22" => "a27")
+    s = replace(s, "(pi*x*a9*a23 + a27)" => "a28")
+    s = replace(s, "(-pi*a24*a22 - 4.0*pi*a1)" => "a29")
+    s = replace(s, "a26*a24" => "a30")
+    s = replace(s, "a26*a27" => "a31")
     return s
 end
 
-sp.@syms alpha, beta, gamma, eta0
-
-function compute_source_terms(etasol, vsol, bfunc, g)
+function compute_source_terms(etasol, vsol, bfunc, g, alpha, beta, gamma, eta0)
     (t, x) = sp.symbols("t, x", real=true)
     eta = etasol(t, x)
     v = vsol(t, x)
-    b = bfunc(x)
+    b = bfunc(x, eta0)
     D = eta0 - b
     h = eta - b
     alpha_hat = sqrt(alpha*sqrt(g*D)*D^2)
@@ -80,13 +90,13 @@ function compute_source_terms(etasol, vsol, bfunc, g)
     s2_prim |> sp.string |> math_replacements |> println
 end
 
-function bfunc_constant(x)
+function bfunc_constant(x, eta0)
     sp.@syms D
     b = eta0 - D
     return b
 end
 
-sp.@syms g
+sp.@syms g, alpha, beta, gamma, eta0
 
 function etasol_manufactured(t, x)
     return exp(t) * cospi(2 * (x - 2 * t))
@@ -97,11 +107,27 @@ function vsol_manufactured(t, x)
 end
 
 println("Manufactured constant b:")
-compute_source_terms(etasol_manufactured, vsol_manufactured, bfunc_constant, g)
+compute_source_terms(etasol_manufactured, vsol_manufactured, bfunc_constant, g, alpha, beta, gamma, eta0)
 println("-"^100)
 
-bfunc(x) = -5.0 - 2.0*cospi(2*x)
+bfunc(x, eta0) = -5.0 - 2.0*cospi(2*x)
 
 # This may take a while
 println("Manufactured variable b:")
-compute_source_terms(etasol_manufactured, vsol_manufactured, bfunc, g)
+compute_source_terms(etasol_manufactured, vsol_manufactured, bfunc, g, alpha, beta, gamma, eta0)
+println("-"^100)
+
+function etasol_manufactured_reflecting(t, x)
+    return exp(2 * t) * cospi(x)
+end
+
+function vsol_manufactured_reflecting(t, x)
+    return exp(t) * x * sinpi(x)
+end
+
+println("Manufactured reflecting constant b:")
+compute_source_terms(etasol_manufactured_reflecting, vsol_manufactured_reflecting, bfunc_constant, g, 0.0, beta, 0.0, eta0)
+println("-"^100)
+
+println("Manufactured reflecting variable b:")
+compute_source_terms(etasol_manufactured_reflecting, vsol_manufactured_reflecting, bfunc, g, 0.0, beta, 0.0, eta0)

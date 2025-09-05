@@ -12,10 +12,10 @@ function initial_condition_traveling_wave(x, t, equations::SvaerdKalischEquation
     A = 0.02
     omega = 2*pi/(2.02*sqrt(2))
     k = 0.8406220896381442 # precomputed result of find_zero(k -> omega^2 - equations.gravity * k * tanh(k * h0), 1.0) using Roots.jl
-    h_prime = A * cos(k * x - omega * t) # linearizing h around h0, h = h0 + h'
-    v = sqrt(equations.gravity / k * tanh(k * h0)) * h_prime / h0
-    eta = h_prime + equations.eta0
-    D = h0
+    eta_prime = A * cos(k * x - omega * t) # linearizing eta around eta0, eta = eta0 + eta'
+    v = sqrt(equations.gravity / k * tanh(k * h0)) * eta_prime / h0
+    eta = eta_prime + equations.eta0
+    D = h0 # = eta_0 - b (b = b0 = eta0 - h0)
     return SVector(eta, v, D)
 end
 

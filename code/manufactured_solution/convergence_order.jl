@@ -7,7 +7,7 @@ using DispersiveShallowWater
 using Plots
 using LaTeXStrings
 
-const EXAMPLES_DIR = "elixirs"
+const EXAMPLES_DIR = joinpath(@__DIR__, "elixirs")
 const OUT = "out/"
 ispath(OUT) || mkpath(OUT)
 

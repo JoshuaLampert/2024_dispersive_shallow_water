@@ -31,19 +31,21 @@ of the resulting .pdf files:
 The resulting figures are then saved as .pdf files in a new directory `out`
 inside the folder of this `README.md`. The table (Table 2) is printed to the screen as $\LaTeX$ code.
 
-In order to execute a script, start Julia in this folder and execute
+In order to execute a script, you can run the following command in this folder:
 
-```julia
-julia> include("path_to/file_name.jl")
+```bash
+julia path_to/file_name.jl
 ```
 
-in the Julia REPL. To execute the first script from the list above, e.g.,
+in a terminal. To execute the first script from the list above, e.g.,
 execute
 
-```julia
-julia> include("basic_plots/bathymetry.jl")
+```bash
+julia basic_plots/bathymetry.jl
 ```
 
+Alternatively, you can `include` the file from the Julia REPL, but in this case you need to restart Julia
+when executing a script in another directory to load the correct environment.
 In addition to scripts that save one or more figures or display a table, there are two scripts,
 which compute and print the source terms that correspond to the manufactured
 solutions used in Figures 7 and 8:

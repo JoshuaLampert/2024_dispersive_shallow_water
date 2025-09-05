@@ -15,11 +15,11 @@ function initial_condition_dingemans_calibrated(x, t, equations::SvaerdKalischEq
     k = 0.8406220896381442 # precomputed result of find_zero(k -> omega^2 - equations.gravity * k * tanh(k * h0), 1.0) using Roots.jl
     x_trans = 2.2
     if x - x_trans < -34.5 * pi / k || x - x_trans > -4.5 * pi / k
-        h = 0.0
+        eta_prime = 0.0
     else
-        h = A * cos(k * (x - x_trans))
+        eta_prime = A * cos(k * (x - x_trans))
     end
-    v = sqrt(equations.gravity / k * tanh(k * h0)) * h / h0
+    v = sqrt(equations.gravity / k * tanh(k * h0)) * eta_prime / h0
     if 11.01 <= x && x < 23.04
         b = 0.6 * (x - 11.01) / (23.04 - 11.01)
     elseif 23.04 <= x && x < 27.04
@@ -29,7 +29,7 @@ function initial_condition_dingemans_calibrated(x, t, equations::SvaerdKalischEq
     else
         b = 0.0
     end
-    eta = h + equations.eta0
+    eta = eta_prime + equations.eta0
     D = equations.eta0 - b
     return SVector(eta, v, D)
 end

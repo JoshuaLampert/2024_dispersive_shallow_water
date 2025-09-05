@@ -9,11 +9,11 @@ function initial_condition_dingemans_trixi(x, t, equations::ShallowWaterEquation
     # omega = 2*pi/(2.02*sqrt(2))
     k = 0.8406220896381442 # precomputed result of find_zero(k -> omega^2 - equations.gravity * k * tanh(k * h0), 1.0) using Roots.jl
     if x[1] < -34.5 * pi / k || x[1] > -4.5 * pi / k
-        h = 0.0
+        eta_prime = 0.0
     else
-        h = A * cos(k * x[1])
+        eta_prime = A * cos(k * x[1])
     end
-    v = sqrt(equations.gravity / k * tanh(k * h0)) * h / h0
+    v = sqrt(equations.gravity / k * tanh(k * h0)) * eta_prime / h0
     if 11.01 <= x[1] && x[1] < 23.04
         b = 0.6 * (x[1] - 11.01) / (23.04 - 11.01)
     elseif 23.04 <= x[1] && x[1] < 27.04
@@ -23,8 +23,8 @@ function initial_condition_dingemans_trixi(x, t, equations::ShallowWaterEquation
     else
         b = 0.0
     end
-    eta = h + h0
-    D = h0 - b
+    eta = eta_prime + equations.H0 # H0 = eta0
+    D = equations.H0 - b
     return Trixi.prim2cons(SVector(eta, v, b), equations)
 end
 

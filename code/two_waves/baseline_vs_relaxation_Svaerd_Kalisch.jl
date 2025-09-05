@@ -7,7 +7,7 @@ using Plots
 
 const OUT = "out/"
 ispath(OUT) || mkpath(OUT)
-const EXAMPLES_DIR = "elixirs"
+const EXAMPLES_DIR = joinpath(@__DIR__, "elixirs")
 
 linewidth = 2
 linestyles = [:dash, :dot]

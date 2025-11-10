@@ -7,12 +7,17 @@
 This repository contains information and code to reproduce the results presented in the
 article
 ```bibtex
-@online{lampert2024structure,
-  title={Structure-Preserving Numerical Methods for Two Nonlinear Systems of
-         Dispersive Wave Equations},
+@article{lampert2025structure,
+  title={Structure-preserving numerical methods for two nonlinear systems of
+           dispersive wave equations},
   author={Lampert, Joshua and Ranocha, Hendrik},
-  year={2024},
-  month={02},
+  journal={Computational Science and Engineering},
+  volume={2},
+  number={2},
+  pages={e70016},
+  year={2025},
+  month={10},
+  doi={10.1007/s44207-025-00006-3},
   eprint={2402.16669},
   eprinttype={arxiv},
   eprintclass={math.NA}

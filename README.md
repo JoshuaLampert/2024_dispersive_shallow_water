@@ -53,7 +53,7 @@ and [DispersiveShallowWater.jl](https://github.com/JoshuaLampert/DispersiveShall
 ## Abstract
 
 We use the general framework of summation-by-parts operators
-to construct conservative, energy-stable and well-balanced
+to construct conservative, energy-stable, and well-balanced
 semidiscretizations of two different nonlinear systems of
 dispersive shallow water equations with varying bathymetry:
 (i) a variant of the coupled Benjamin-Bona-Mahony (BBM) equations

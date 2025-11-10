@@ -14,7 +14,6 @@ article
   journal={Computational Science and Engineering},
   volume={2},
   number={2},
-  pages={e70016},
   year={2025},
   month={10},
   doi={10.1007/s44207-025-00006-3},
